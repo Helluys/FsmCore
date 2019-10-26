@@ -3,20 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace fsm {
+namespace Helluys.FsmCore
+{
     [CreateAssetMenu(fileName = "FiniteStateMachine", menuName = "FiniteStateMachine")]
-    public partial class FiniteStateMachine : ScriptableObject {
+    public partial class FiniteStateMachine : ScriptableObject
+    {
 
-        public class StateChangedEvent : UnityEvent<FsmState, FsmState> {}
+        public class StateChangedEvent : UnityEvent<FsmState, FsmState> { }
 
         [Serializable]
-        public class StateInstance {
+        public class StateInstance
+        {
             public FsmState state;
             public List<TransitionInstance> transitions = new List<TransitionInstance>();
         }
 
         [Serializable]
-        public class TransitionInstance {
+        public class TransitionInstance
+        {
             public FsmTransition transition;
             public string targetState;
         }
@@ -45,7 +49,7 @@ namespace fsm {
         public void RemoveState (string name) {
             if (fsm.Remove(name)) {
                 // Remove all transitions pointing the the removed state
-                foreach (StateInstance stateInstance in fsm.Values) {
+                foreach (StateInstance stateInstance in states) {
                     stateInstance.transitions.RemoveAll(t => t.targetState.Equals(name));
                 }
             }
@@ -58,7 +62,7 @@ namespace fsm {
         public void RemoveParameter (string name) {
             if (parameters.TryGetValue(name, out FsmParameter removedParameter)) {
                 // Remove all conditions using the removed parameter
-                foreach (StateInstance stateInstance in fsm.Values) {
+                foreach (StateInstance stateInstance in states) {
                     foreach (TransitionInstance transitionInstance in stateInstance.transitions) {
                         transitionInstance.transition.RemoveParameter(removedParameter);
                     }

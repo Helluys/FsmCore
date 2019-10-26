@@ -1,7 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using Helluys.FsmCore.Parameters;
 
-namespace fsm {
+namespace Helluys.FsmCore.Serialization {
     [Serializable]
     public class SerializableFsmParameter {
         public enum Type {
@@ -13,20 +14,39 @@ namespace fsm {
 
         public string name;
         public Type type;
+        public SerializableFsmConstant defaultValue;
 
         public FsmParameter Deserialize () {
+            FsmParameter result;
             switch (type) {
                 case Type.TRIGGER:
-                    return new TriggerParameter();
+                    result = new TriggerParameter() {
+                        name = name
+                    };
+                    break;
                 case Type.BOOLEAN:
-                    return new BooleanParameter();
+                    result = new BooleanParameter() {
+                        name = name,
+                        value = (defaultValue.Deserialize() as ConstantBooleanParameter).value
+                    };
+                    break;
                 case Type.INTEGER:
-                    return new IntegerParameter();
+                    result = new IntegerParameter() {
+                        name = name,
+                        value = (defaultValue.Deserialize() as ConstantIntegerParameter).value
+                    };
+                    break;
                 case Type.FLOAT:
-                    return new FloatParameter();
+                    result = new FloatParameter() {
+                        name = name,
+                        value = (defaultValue.Deserialize() as ConstantFloatParameter).value
+                    };
+                    break;
                 default:
                     throw new InvalidEnumArgumentException();
-            }
+            };
+
+            return result;
         }
     }
 }

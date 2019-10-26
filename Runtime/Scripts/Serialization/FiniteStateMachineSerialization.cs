@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Helluys.FsmCore.Serialization;
 using UnityEngine;
 
-namespace fsm {
-    public partial class FiniteStateMachine : ISerializationCallbackReceiver {
+namespace Helluys.FsmCore
+{
+    public partial class FiniteStateMachine : ISerializationCallbackReceiver
+    {
 
         [Serializable]
-        private class SerializableStateInstance {
+        private class SerializableStateInstance
+        {
             public string name;
             public FsmState state;
             public List<SerializableFsmTransition> transitions = new List<SerializableFsmTransition>();

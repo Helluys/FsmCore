@@ -1,6 +1,8 @@
 ﻿using System;
+using Helluys.FsmCore.Serialization;
 
-namespace fsm {
+namespace Helluys.FsmCore.Parameters
+{
     public class TriggerParameter : FsmParameter {
         private bool value;
 

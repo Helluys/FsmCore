@@ -1,7 +1,11 @@
 ﻿using UnityEditor.Graphs;
 
-internal class FsmGraphGUI : GraphGUI {
-    public FsmGraphGUI() {
+namespace Helluys.FsmCore.Editor
+{
+    internal class FsmGraphGUI : GraphGUI
+    {
+        public FsmGraphGUI () {
 
+        }
     }
 }

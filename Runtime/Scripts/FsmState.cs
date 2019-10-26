@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace fsm {
+namespace Helluys.FsmCore {
     public class FsmState : ScriptableObject {
 
         public virtual void OnEnter () { }

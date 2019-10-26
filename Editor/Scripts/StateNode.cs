@@ -1,10 +1,12 @@
-﻿using UnityEngine;
-using UnityEditor;
-using UnityEditor.Graphs;
+﻿using UnityEditor.Graphs;
 
-public class StateNode : Node {
+namespace Helluys.FsmCore.Editor
+{
+    public class StateNode : Node
+    {
 
-    public override void NodeUI (GraphGUI host) {
-        base.NodeUI(host);
+        public override void NodeUI (GraphGUI host) {
+            base.NodeUI(host);
+        }
     }
 }

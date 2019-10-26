@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using UnityEngine;
+using Helluys.FsmCore.Conditions;
+using Helluys.FsmCore.Parameters;
 
-namespace fsm {
+namespace Helluys.FsmCore.Serialization {
     [Serializable]
     public class SerializableFsmCondition {
         public enum Type {

@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Helluys.FsmCore.Parameters;
+using Helluys.FsmCore.Serialization;
 
-namespace fsm {
+namespace Helluys.FsmCore.Conditions
+{
     public class TriggerCondition : FsmCondition {
         private TriggerParameter trigger;
 

@@ -1,4 +1,7 @@
-﻿namespace fsm {
+﻿using Helluys.FsmCore.Serialization;
+
+namespace Helluys.FsmCore.Parameters
+{
     public class ConstantIntegerParameter : FsmConstant {
         public int value;
 

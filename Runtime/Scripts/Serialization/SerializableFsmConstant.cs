@@ -1,7 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using Helluys.FsmCore.Parameters;
 
-namespace fsm {
+namespace Helluys.FsmCore.Serialization {
     [Serializable]
     public class SerializableFsmConstant {
         public enum Type {

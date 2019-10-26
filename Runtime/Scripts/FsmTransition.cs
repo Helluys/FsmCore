@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace fsm {
+namespace Helluys.FsmCore {
     [Serializable]
     public partial class FsmTransition : IEnumerable<FsmCondition> {
 

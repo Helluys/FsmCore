@@ -1,6 +1,7 @@
 ﻿using System;
+using Helluys.FsmCore.Serialization;
 
-namespace fsm {
+namespace Helluys.FsmCore.Parameters {
     public class BooleanParameter : FsmParameter {
         public bool value;
 
@@ -10,6 +11,20 @@ namespace fsm {
 
         public void Set (bool newValue) {
             value = newValue;
+        }
+
+        public override bool Equals (object other) {
+            if (other == this) {
+                return true;
+            } else if (other is BooleanParameter) {
+                return (other as BooleanParameter).value == value;
+            } else {
+                return false;
+            }
+        }
+
+        public override int GetHashCode () {
+            return value.GetHashCode();
         }
 
         public override bool Equals (FsmConstant constant) {
@@ -31,7 +46,10 @@ namespace fsm {
         public override SerializableFsmParameter Serialize (string name) {
             return new SerializableFsmParameter() {
                 name = name,
-                type = SerializableFsmParameter.Type.BOOLEAN
+                type = SerializableFsmParameter.Type.BOOLEAN,
+                defaultValue = new ConstantBooleanParameter() {
+                    value = value
+                }.Serialize()
             };
         }
     }

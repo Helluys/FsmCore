@@ -1,4 +1,7 @@
-﻿namespace fsm {
+﻿using Helluys.FsmCore.Serialization;
+
+namespace Helluys.FsmCore.Conditions
+{
     public class GreaterThanCondition : FsmCondition {
         private FsmParameter parameter;
         private FsmConstant constant;

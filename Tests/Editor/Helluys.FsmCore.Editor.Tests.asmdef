@@ -1,0 +1,14 @@
+{
+	"name": "FsmCore.Editor.Tests",
+	"references": [
+		"FsmCore.Editor",
+		"FsmCore"
+	],
+	"optionalUnityReferences": [
+		"TestAssemblies"
+	],
+	"includePlatforms": [
+		"Editor"
+	],
+	"excludePlatforms": []
+}

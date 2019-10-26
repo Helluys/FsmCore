@@ -1,0 +1,20 @@
+{
+  "name": "com.helluys.fsmcore",
+  "version": "0.0.1",
+  "displayName": "FSM Core",
+  "description": "Editable Finite State Machines",
+  "unity": "2019.2",
+  "unityRelease": "9f1",
+  "keywords": [
+    "finite",
+    "state",
+    "machine",
+    "fsm"
+  ],
+  "author": {
+    "name": "Helluys",
+    "email": "luys@live.fr",
+    "url": "https://github.com/Helluys/FsmCore"
+  },
+  "type": "tool"
+}

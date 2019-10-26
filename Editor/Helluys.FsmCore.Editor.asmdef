@@ -1,0 +1,16 @@
+{
+    "name": "FsmCore.Editor",
+    "references": [
+        "GUID:58ac7454769b8214d82d418d35e67641"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

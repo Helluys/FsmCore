@@ -1,11 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace Helluys.FsmCore.Serialization {
+namespace Helluys.FsmCore.Serialization
+{
     [Serializable]
-    public class SerializableFsmTransition {
-        [SerializeField] public List<SerializableFsmCondition> serializableFsmConditions = new List<SerializableFsmCondition>();
-        [SerializeField] public string targetState;
+    public struct SerializableFsmTransition
+    {
+        public List<SerializableFsmCondition> serializableFsmConditions;
+
+        public static SerializableFsmTransition Serialize (FsmTransition transition) {
+            List<SerializableFsmCondition> conditions = new List<SerializableFsmCondition>();
+            foreach (FsmCondition condition in transition) {
+                conditions.Add(condition.Serialize());
+            }
+
+            return new SerializableFsmTransition() {
+                serializableFsmConditions = conditions
+            };
+        }
+
+        public FsmTransition Deserialize (IDictionary<string, FsmParameter> parameters) {
+            FsmTransition transition = new FsmTransition();
+            foreach (SerializableFsmCondition serializableFsmCondition in serializableFsmConditions) {
+                transition.AddCondition(serializableFsmCondition.Deserialize(parameters));
+            }
+
+            return transition;
+        }
     }
 }

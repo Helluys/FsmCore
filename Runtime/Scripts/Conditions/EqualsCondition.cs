@@ -22,7 +22,7 @@ namespace Helluys.FsmCore.Conditions
         public override SerializableFsmCondition Serialize() {
             return new SerializableFsmCondition() {
                 type = SerializableFsmCondition.Type.EQUALS,
-                parameterName = parameter?.name,
+                parameterName = parameter.name,
                 constant = constant.Serialize()
             };
         }

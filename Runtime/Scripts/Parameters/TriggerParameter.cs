@@ -31,7 +31,7 @@ namespace Helluys.FsmCore.Parameters
         public override SerializableFsmParameter Serialize (string name) {
             return new SerializableFsmParameter() {
                 name = name,
-                type = SerializableFsmParameter.Type.TRIGGER
+                type = SerializableFsmParameter.Type.TRIGGER,
             };
         }
     }

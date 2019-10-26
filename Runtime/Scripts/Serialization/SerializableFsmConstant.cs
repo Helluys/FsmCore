@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Helluys.FsmCore.Parameters;
+using UnityEngine;
 
 namespace Helluys.FsmCore.Serialization {
     [Serializable]
@@ -16,6 +17,10 @@ namespace Helluys.FsmCore.Serialization {
         public int integerValue;
         public float floatValue;
 
+        public static SerializableFsmConstant Serialize(FsmConstant fsmConstant) {
+            return fsmConstant.Serialize();
+        }
+        
         public FsmConstant Deserialize () {
             switch (type) {
                 case Type.BOOLEAN:

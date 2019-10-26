@@ -8,18 +8,15 @@ namespace Helluys.FsmCore
     [CreateAssetMenu(fileName = "FiniteStateMachine", menuName = "FiniteStateMachine")]
     public partial class FiniteStateMachine : ScriptableObject
     {
-
         public class StateChangedEvent : UnityEvent<FsmState, FsmState> { }
 
-        [Serializable]
         public class StateInstance
         {
             public string name;
             public FsmState state;
-            public List<TransitionInstance> transitions = new List<TransitionInstance>();
+            public List<TransitionInstance> transitions;
         }
 
-        [Serializable]
         public class TransitionInstance
         {
             public FsmTransition transition;
@@ -45,7 +42,8 @@ namespace Helluys.FsmCore
         public void AddStateInstance (string name, FsmState state) {
             StateInstance newStateInstance = new StateInstance() {
                 name = name,
-                state = state
+                state = state,
+                transitions = new List<TransitionInstance>()
             };
             
             fsm.Add(name, newStateInstance);
@@ -64,8 +62,8 @@ namespace Helluys.FsmCore
             }
         }
 
-        public void AddParameter (string name, FsmParameter parameter) {
-            parameters.Add(name, parameter);
+        public void AddParameter (FsmParameter parameter) {
+            parameters.Add(parameter.name, parameter);
         }
 
         public void RemoveParameter (string name) {
@@ -79,6 +77,14 @@ namespace Helluys.FsmCore
 
                 parameters.Remove(name);
             }
+        }
+
+        public IEnumerable<KeyValuePair<string, FsmParameter>> GetParameters() {
+            return parameters;
+        }
+
+        public FsmParameter GetParameter (string name) {
+            return parameters[name];
         }
 
         public void AddTransition (string fromState, string toState, FsmTransition transition) {

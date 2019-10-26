@@ -22,8 +22,8 @@ namespace Helluys.FsmCore.Conditions
         public override SerializableFsmCondition Serialize () {
             return new SerializableFsmCondition() {
                 type = SerializableFsmCondition.Type.GREATER_THAN,
-                parameterName = null,
-                constant = null
+                parameterName = parameter.name,
+                constant = constant.Serialize()
             };
         }
     }

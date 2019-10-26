@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Helluys.FsmCore.Conditions;
 using Helluys.FsmCore.Parameters;
+using UnityEngine;
 
 namespace Helluys.FsmCore.Serialization {
     [Serializable]
-    public class SerializableFsmCondition {
+    public struct SerializableFsmCondition {
         public enum Type {
             EQUALS,
             GREATER_THAN,
@@ -18,8 +19,12 @@ namespace Helluys.FsmCore.Serialization {
         public string parameterName;
         public SerializableFsmConstant constant;
 
+        public static SerializableFsmCondition Serialize (FsmCondition condition) {
+            return condition.Serialize();
+        }
+
         public FsmCondition Deserialize (IDictionary<string, FsmParameter> parameters) {
-            parameters.TryGetValue(parameterName, out FsmParameter parameter);
+            FsmParameter parameter = parameters[parameterName];
 
             switch (type) {
                 case Type.EQUALS:

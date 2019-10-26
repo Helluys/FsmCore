@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ffde926138c854e8f4f135237479a1, type: 3}
+  m_Name: SavedFsm
+  m_EditorClassIdentifier: 
+  serializableStateInstances:
+  - name: One
+    fsmState: {fileID: 11400000, guid: ada1adc0e3e61c54a8903bb2fe867a3e, type: 2}
+    transitions:
+    - fsmTransition:
+        serializableFsmConditions:
+        - type: 3
+          parameterName: testTrigger
+          constant:
+            type: 0
+            booleanValue: 0
+            integerValue: 0
+            floatValue: 0
+      targetState: Two
+  - name: Two
+    fsmState: {fileID: 11400000, guid: 76b1e5a6ef8c87b42b965dbd83d683a8, type: 2}
+    transitions:
+    - fsmTransition:
+        serializableFsmConditions:
+        - type: 0
+          parameterName: testBool
+          constant:
+            type: 0
+            booleanValue: 1
+            integerValue: 0
+            floatValue: 0
+      targetState: Three
+  - name: Three
+    fsmState: {fileID: 11400000, guid: ada1adc0e3e61c54a8903bb2fe867a3e, type: 2}
+    transitions:
+    - fsmTransition:
+        serializableFsmConditions:
+        - type: 1
+          parameterName: testInt
+          constant:
+            type: 1
+            booleanValue: 0
+            integerValue: 3
+            floatValue: 0
+      targetState: Four
+  - name: Four
+    fsmState: {fileID: 11400000, guid: 76b1e5a6ef8c87b42b965dbd83d683a8, type: 2}
+    transitions:
+    - fsmTransition:
+        serializableFsmConditions:
+        - type: 2
+          parameterName: testFloat
+          constant:
+            type: 2
+            booleanValue: 0
+            integerValue: 0
+            floatValue: -1
+      targetState: One
+  serializableFsmParameters:
+  - name: testTrigger
+    type: 0
+    defaultValue:
+      type: 0
+      booleanValue: 0
+      integerValue: 0
+      floatValue: 0
+  - name: testBool
+    type: 1
+    defaultValue:
+      type: 0
+      booleanValue: 0
+      integerValue: 0
+      floatValue: 0
+  - name: testInt
+    type: 2
+    defaultValue:
+      type: 1
+      booleanValue: 0
+      integerValue: 0
+      floatValue: 0
+  - name: testFloat
+    type: 3
+    defaultValue:
+      type: 2
+      booleanValue: 0
+      integerValue: 0
+      floatValue: 0

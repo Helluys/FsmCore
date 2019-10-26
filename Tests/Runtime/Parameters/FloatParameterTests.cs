@@ -1,4 +1,5 @@
-﻿using Helluys.FsmCore.Parameters;
+﻿using System;
+using Helluys.FsmCore.Parameters;
 using NUnit.Framework;
 
 namespace Helluys.FsmCore.Tests.Parameters
@@ -6,6 +7,19 @@ namespace Helluys.FsmCore.Tests.Parameters
     [TestFixture]
     public class FloatParameterTests
     {
+        [Test]
+        public void GetSetTest() {
+            FloatParameter float1 = new FloatParameter() {
+                name = "float1",
+                value = 1f
+            };
+
+            Assert.IsTrue(Math.Abs(float1.Get() - 1f) < float.Epsilon);
+
+            float1.Set(2f);
+            Assert.IsTrue(Math.Abs(float1.Get() - 2f) < float.Epsilon);
+        }
+
         [Test]
         public void EqualsTest () {
             FloatParameter float1 = new FloatParameter() {

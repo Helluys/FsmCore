@@ -1,4 +1,5 @@
-﻿using Helluys.FsmCore.Parameters;
+﻿using System;
+using Helluys.FsmCore.Parameters;
 using NUnit.Framework;
 
 namespace Helluys.FsmCore.Tests.Parameters
@@ -6,6 +7,19 @@ namespace Helluys.FsmCore.Tests.Parameters
     [TestFixture]
     public class IntegerParameterTests
     {
+        [Test]
+        public void GetSetTest () {
+            IntegerParameter int1 = new IntegerParameter() {
+                name = "int1",
+                value = 1
+            };
+
+            Assert.AreEqual(1, int1.Get());
+
+            int1.Set(2);
+            Assert.AreEqual(2, int1.Get());
+        }
+
         [Test]
         public void EqualsTest () {
             IntegerParameter int1 = new IntegerParameter() {

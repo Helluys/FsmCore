@@ -8,6 +8,20 @@ namespace Helluys.FsmCore.Tests.Parameters
     public class BooleanParameterTests
     {
         [Test]
+        public void GetSetTest () {
+            BooleanParameter bool1 = new BooleanParameter() {
+                name = "bool1",
+                value = false
+            };
+
+            Assert.IsFalse(bool1.Get());
+
+            bool1.Set(true);
+
+            Assert.IsTrue(bool1.Get());
+        }
+
+        [Test]
         public void EqualsTest () {
             BooleanParameter bool1 = new BooleanParameter() {
                 name = "bool1",

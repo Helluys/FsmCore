@@ -14,6 +14,7 @@ namespace Helluys.FsmCore
         [Serializable]
         public class StateInstance
         {
+            public string name;
             public FsmState state;
             public List<TransitionInstance> transitions = new List<TransitionInstance>();
         }
@@ -26,6 +27,7 @@ namespace Helluys.FsmCore
         }
 
         public StateChangedEvent OnStateChanged = new StateChangedEvent();
+        public string currentStateInstanceName {  get { return currentStateInstance.name; } }
         public FsmState currentState { get { return currentStateInstance.state; } }
 
         private IDictionary<string, StateInstance> fsm;
@@ -40,10 +42,17 @@ namespace Helluys.FsmCore
             currentStateInstance = null;
         }
 
-        public void AddState (string name, FsmState state) {
-            fsm.Add(name, new StateInstance() {
+        public void AddStateInstance (string name, FsmState state) {
+            StateInstance newStateInstance = new StateInstance() {
+                name = name,
                 state = state
-            });
+            };
+            
+            fsm.Add(name, newStateInstance);
+            
+            if (currentStateInstance == null) {
+                currentStateInstance = newStateInstance;
+            }
         }
 
         public void RemoveState (string name) {

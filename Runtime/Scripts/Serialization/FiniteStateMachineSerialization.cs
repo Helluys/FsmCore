@@ -35,7 +35,7 @@ namespace Helluys.FsmCore
 
         private static SerializableStateInstance SerializeStateInstance (KeyValuePair<string, StateInstance> kvp) {
             SerializableStateInstance serializableStateInstance = new SerializableStateInstance() {
-                name = kvp.Key,
+                name = kvp.Value.name,
                 state = kvp.Value.state,
                 transitions = new List<SerializableFsmTransition>()
             };

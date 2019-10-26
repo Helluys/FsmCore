@@ -21,11 +21,11 @@ namespace Helluys.FsmCore.Parameters
         }
 
         public override bool GreaterThan (FsmConstant constant) {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public override bool SmallerThan (FsmConstant constant) {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public override SerializableFsmParameter Serialize (string name) {

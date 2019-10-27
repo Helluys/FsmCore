@@ -19,13 +19,13 @@ namespace Helluys.FsmCore.Conditions
             return trigger.Get();
         }
 
-        public override SerializableFsmCondition Serialize () {
+        public override SerializedFsmCondition Serialize () {
             // Backup trigger value
             bool triggerValue = (trigger != null) ? trigger.Get() : false;
 
             // Serialize
-            SerializableFsmCondition serializableFsmCondition = new SerializableFsmCondition() {
-                type = SerializableFsmCondition.Type.TRIGGER,
+            SerializedFsmCondition serializableFsmCondition = new SerializedFsmCondition() {
+                type = SerializedFsmCondition.Type.TRIGGER,
                 parameterName = trigger?.name,
                 constant = new ConstantBooleanParameter() { value = triggerValue }.Serialize()
             };

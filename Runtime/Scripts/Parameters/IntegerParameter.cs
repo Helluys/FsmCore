@@ -53,10 +53,10 @@ namespace Helluys.FsmCore.Parameters
             }
         }
 
-        public override SerializableFsmParameter Serialize (string name) {
-            return new SerializableFsmParameter() {
+        public override SerializedFsmParameter Serialize (string name) {
+            return new SerializedFsmParameter() {
                 name = name,
-                type = SerializableFsmParameter.Type.INTEGER,
+                type = SerializedFsmParameter.Type.INTEGER,
                 defaultValue = new ConstantIntegerParameter() {
                     value = value
                 }.Serialize()

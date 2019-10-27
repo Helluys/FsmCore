@@ -5,7 +5,7 @@ using Helluys.FsmCore.Parameters;
 namespace Helluys.FsmCore.Serialization
 {
     [Serializable]
-    public class SerializableFsmParameter
+    public class SerializedFsmParameter
     {
         public enum Type
         {
@@ -17,9 +17,9 @@ namespace Helluys.FsmCore.Serialization
 
         public string name;
         public Type type;
-        public SerializableFsmConstant defaultValue;
+        public SerializedFsmConstant defaultValue;
 
-        public static SerializableFsmParameter Serialize (string name, FsmParameter fsmParameter) {
+        public static SerializedFsmParameter Serialize (string name, FsmParameter fsmParameter) {
             return fsmParameter.Serialize(name);
         }
 

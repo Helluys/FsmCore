@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Helluys.FsmCore.Editor
 {
-    [CustomPropertyDrawer(typeof(SerializableFsmConstant))]
-    public class SerializableFsmConstantDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(SerializedFsmConstant))]
+    public class SerializedFsmConstantDrawer : PropertyDrawer
     {
         public override void OnGUI (Rect position, SerializedProperty property, GUIContent label) {
             EditorGUI.BeginProperty(position, label, property);
@@ -14,20 +14,20 @@ namespace Helluys.FsmCore.Editor
             position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
             // Extract type
-            SerializableFsmConstant.Type type = (SerializableFsmConstant.Type) property.FindPropertyRelative("type").enumValueIndex;
+            SerializedFsmConstant.Type type = (SerializedFsmConstant.Type) property.FindPropertyRelative("type").enumValueIndex;
 
             // Draw value
             switch (type) {
 
-                case SerializableFsmConstant.Type.BOOLEAN:
+                case SerializedFsmConstant.Type.BOOLEAN:
                     EditorGUI.PropertyField(position, property.FindPropertyRelative("booleanValue"), GUIContent.none);
                     break;
 
-                case SerializableFsmConstant.Type.INTEGER:
+                case SerializedFsmConstant.Type.INTEGER:
                     EditorGUI.PropertyField(position, property.FindPropertyRelative("integerValue"), GUIContent.none);
                     break;
 
-                case SerializableFsmConstant.Type.FLOAT:
+                case SerializedFsmConstant.Type.FLOAT:
                     EditorGUI.PropertyField(position, property.FindPropertyRelative("floatValue"), GUIContent.none);
                     break;
 

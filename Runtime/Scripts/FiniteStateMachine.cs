@@ -107,6 +107,14 @@ namespace Helluys.FsmCore
             fsm[fromState].transitions.RemoveAll(t => t.targetState.Equals(toState));
         }
 
+        public FsmTransition GetTransition(string fromState, string toState) {
+            if (!fsm.ContainsKey(toState)) {
+                throw new KeyNotFoundException();
+            }
+
+            return fsm[fromState].transitions.Find(t => t.targetState.Equals(toState))?.transition;
+        }
+
         public void Update () {
             bool stateChanged = false;
             foreach (TransitionInstance transition in currentStateInstance.transitions) {

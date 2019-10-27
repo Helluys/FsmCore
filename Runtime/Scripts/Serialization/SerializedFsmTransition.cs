@@ -4,24 +4,24 @@ using System.Collections.Generic;
 namespace Helluys.FsmCore.Serialization
 {
     [Serializable]
-    public struct SerializableFsmTransition
+    public struct SerializedFsmTransition
     {
-        public List<SerializableFsmCondition> serializableFsmConditions;
+        public List<SerializedFsmCondition> serializableFsmConditions;
 
-        public static SerializableFsmTransition Serialize (FsmTransition transition) {
-            List<SerializableFsmCondition> conditions = new List<SerializableFsmCondition>();
+        public static SerializedFsmTransition Serialize (FsmTransition transition) {
+            List<SerializedFsmCondition> conditions = new List<SerializedFsmCondition>();
             foreach (FsmCondition condition in transition) {
                 conditions.Add(condition.Serialize());
             }
 
-            return new SerializableFsmTransition() {
+            return new SerializedFsmTransition() {
                 serializableFsmConditions = conditions
             };
         }
 
         public FsmTransition Deserialize (IDictionary<string, FsmParameter> parameters) {
             FsmTransition transition = new FsmTransition();
-            foreach (SerializableFsmCondition serializableFsmCondition in serializableFsmConditions) {
+            foreach (SerializedFsmCondition serializableFsmCondition in serializableFsmConditions) {
                 transition.AddCondition(serializableFsmCondition.Deserialize(parameters));
             }
 

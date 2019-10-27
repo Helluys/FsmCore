@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19ffde926138c854e8f4f135237479a1, type: 3}
   m_Name: SavedFsm
   m_EditorClassIdentifier: 
-  serializableStateInstances:
+  serializedStateInstances:
   - name: One
     fsmState: {fileID: 11400000, guid: ada1adc0e3e61c54a8903bb2fe867a3e, type: 2}
     transitions:
@@ -65,7 +65,7 @@ MonoBehaviour:
             integerValue: 0
             floatValue: -1
       targetState: One
-  serializableFsmParameters:
+  serializedFsmParameters:
   - name: testTrigger
     type: 0
     defaultValue:

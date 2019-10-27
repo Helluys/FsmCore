@@ -9,24 +9,24 @@ namespace Helluys.FsmCore
     public partial class FiniteStateMachine : ISerializationCallbackReceiver
     {
         [Serializable]
-        private struct SerializableStateInstance
+        private class SerializedStateInstance
         {
             public string name;
             public FsmState fsmState;
-            public List<SerializableTransitionInstance> transitions;
+            public List<SerializedTransitionInstance> transitions;
 
-            public static SerializableStateInstance Serialize (StateInstance stateInstance) {
-                SerializableStateInstance serializableStateInstance = new SerializableStateInstance() {
+            public static SerializedStateInstance Serialize (StateInstance stateInstance) {
+                SerializedStateInstance serializedStateInstance = new SerializedStateInstance() {
                     name = stateInstance.name,
                     fsmState = stateInstance.state,
-                    transitions = new List<SerializableTransitionInstance>()
+                    transitions = new List<SerializedTransitionInstance>()
                 };
 
                 foreach (TransitionInstance transitionInstance in stateInstance.transitions) {
-                    serializableStateInstance.transitions.Add(SerializableTransitionInstance.Serialize(transitionInstance));
+                    serializedStateInstance.transitions.Add(SerializedTransitionInstance.Serialize(transitionInstance));
                 }
 
-                return serializableStateInstance;
+                return serializedStateInstance;
             }
 
             public StateInstance Deserialize (IDictionary<string, FsmParameter> parameters) {
@@ -36,8 +36,8 @@ namespace Helluys.FsmCore
                     transitions = new List<TransitionInstance>()
                 };
 
-                foreach (SerializableTransitionInstance serializableFsmTransition in transitions) {
-                    stateInstance.transitions.Add(serializableFsmTransition.Deserialize(parameters));
+                foreach (SerializedTransitionInstance serializedFsmTransition in transitions) {
+                    stateInstance.transitions.Add(serializedFsmTransition.Deserialize(parameters));
                 }
 
                 return stateInstance;
@@ -45,15 +45,15 @@ namespace Helluys.FsmCore
         }
 
         [Serializable]
-        private struct SerializableTransitionInstance
+        private class SerializedTransitionInstance
         {
-            public SerializableFsmTransition fsmTransition;
+            public SerializedFsmTransition fsmTransition;
             public string targetState;
 
-            public static SerializableTransitionInstance Serialize (TransitionInstance transitionInstance) {
-                return new SerializableTransitionInstance() {
+            public static SerializedTransitionInstance Serialize (TransitionInstance transitionInstance) {
+                return new SerializedTransitionInstance() {
                     targetState = transitionInstance.targetState,
-                    fsmTransition = SerializableFsmTransition.Serialize(transitionInstance.transition)
+                    fsmTransition = SerializedFsmTransition.Serialize(transitionInstance.transition)
                 };
             }
 
@@ -65,19 +65,19 @@ namespace Helluys.FsmCore
             }
         }
 
-        [SerializeField] private List<SerializableStateInstance> serializableStateInstances = new List<SerializableStateInstance>();
-        [SerializeField] private List<SerializableFsmParameter> serializableFsmParameters = new List<SerializableFsmParameter>();
+        [SerializeField] private List<SerializedStateInstance> serializedStateInstances = new List<SerializedStateInstance>();
+        [SerializeField] private List<SerializedFsmParameter> serializedFsmParameters = new List<SerializedFsmParameter>();
 
         public void OnBeforeSerialize () {
-            serializableStateInstances.Clear();
-            serializableFsmParameters.Clear();
+            serializedStateInstances.Clear();
+            serializedFsmParameters.Clear();
 
             foreach (KeyValuePair<string, StateInstance> kvp in fsm) {
-                serializableStateInstances.Add(SerializableStateInstance.Serialize(kvp.Value));
+                serializedStateInstances.Add(SerializedStateInstance.Serialize(kvp.Value));
             }
 
             foreach (KeyValuePair<string, FsmParameter> kvp in parameters) {
-                serializableFsmParameters.Add(SerializableFsmParameter.Serialize(kvp.Key, kvp.Value));
+                serializedFsmParameters.Add(SerializedFsmParameter.Serialize(kvp.Key, kvp.Value));
             }
         }
 
@@ -91,32 +91,34 @@ namespace Helluys.FsmCore
         }
 
         private void DeserializeParameters () {
-            foreach (SerializableFsmParameter serializableFsmParameter in serializableFsmParameters) {
+            foreach (SerializedFsmParameter serializedFsmParameter in serializedFsmParameters) {
                 // Prevent empty names
-                if (serializableFsmParameter.name.Length == 0) {
-                    serializableFsmParameter.name = "New parameter";
+                if (serializedFsmParameter.name.Length == 0) {
+                    serializedFsmParameter.name = "New parameter";
                 }
 
                 // Prevent duplicate names (not permitted by dictionary)
-                while (parameters.ContainsKey(serializableFsmParameter.name)) {
-                    serializableFsmParameter.name = IncrementName(serializableFsmParameter.name);
+                while (parameters.ContainsKey(serializedFsmParameter.name)) {
+                    serializedFsmParameter.name = IncrementName(serializedFsmParameter.name);
                 }
 
-                parameters.Add(serializableFsmParameter.name, serializableFsmParameter.Deserialize());
+                parameters.Add(serializedFsmParameter.name, serializedFsmParameter.Deserialize());
             }
         }
 
         private void DeserializeFsm () {
-            foreach (SerializableStateInstance serializableStateInstance in serializableStateInstances) {
+            foreach (SerializedStateInstance serializedStateInstance in serializedStateInstances) {
                 // Prevent empty names
-                string name = serializableStateInstance.name.Length == 0 ? "New state" : serializableStateInstance.name;
-
-                // Prevent duplicate names (not permitted by dictionary)
-                while (fsm.ContainsKey(name)) {
-                    name = IncrementName(name);
+                if (serializedStateInstance.name.Length == 0) {
+                    serializedStateInstance.name  = "New state";
                 }
 
-                fsm.Add(name, serializableStateInstance.Deserialize(parameters));
+                // Prevent duplicate names (not permitted by dictionary)
+                while (fsm.ContainsKey(serializedStateInstance.name)) {
+                    serializedStateInstance.name = IncrementName(serializedStateInstance.name);
+                }
+
+                fsm.Add(serializedStateInstance.name, serializedStateInstance.Deserialize(parameters));
             }
         }
 

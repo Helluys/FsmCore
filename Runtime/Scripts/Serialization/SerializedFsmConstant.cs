@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Helluys.FsmCore.Serialization {
     [Serializable]
-    public class SerializableFsmConstant {
+    public class SerializedFsmConstant {
         public enum Type {
             BOOLEAN,
             INTEGER,
@@ -17,7 +17,7 @@ namespace Helluys.FsmCore.Serialization {
         public int integerValue;
         public float floatValue;
 
-        public static SerializableFsmConstant Serialize(FsmConstant fsmConstant) {
+        public static SerializedFsmConstant Serialize(FsmConstant fsmConstant) {
             return fsmConstant.Serialize();
         }
         

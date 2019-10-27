@@ -28,10 +28,10 @@ namespace Helluys.FsmCore.Parameters
             throw new NotSupportedException();
         }
 
-        public override SerializableFsmParameter Serialize (string name) {
-            return new SerializableFsmParameter() {
+        public override SerializedFsmParameter Serialize (string name) {
+            return new SerializedFsmParameter() {
                 name = name,
-                type = SerializableFsmParameter.Type.TRIGGER,
+                type = SerializedFsmParameter.Type.TRIGGER,
             };
         }
     }

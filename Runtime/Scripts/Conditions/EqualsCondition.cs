@@ -19,9 +19,9 @@ namespace Helluys.FsmCore.Conditions
             return parameter.Equals(constant);
         }
 
-        public override SerializableFsmCondition Serialize() {
-            return new SerializableFsmCondition() {
-                type = SerializableFsmCondition.Type.EQUALS,
+        public override SerializedFsmCondition Serialize() {
+            return new SerializedFsmCondition() {
+                type = SerializedFsmCondition.Type.EQUALS,
                 parameterName = parameter.name,
                 constant = constant.Serialize()
             };

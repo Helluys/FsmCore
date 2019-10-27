@@ -52,10 +52,10 @@ namespace Helluys.FsmCore.Parameters
             }
         }
 
-        public override SerializableFsmParameter Serialize (string name) {
-            return new SerializableFsmParameter() {
+        public override SerializedFsmParameter Serialize (string name) {
+            return new SerializedFsmParameter() {
                 name = name,
-                type = SerializableFsmParameter.Type.FLOAT,
+                type = SerializedFsmParameter.Type.FLOAT,
                 defaultValue = new ConstantFloatParameter() {
                     value = value
                 }.Serialize()

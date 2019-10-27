@@ -6,6 +6,6 @@ namespace Helluys.FsmCore {
 
         public abstract bool Contains (FsmParameter parameter);
         public abstract bool Evaluate ();
-        public abstract SerializableFsmCondition Serialize ();
+        public abstract SerializedFsmCondition Serialize ();
     }
 }

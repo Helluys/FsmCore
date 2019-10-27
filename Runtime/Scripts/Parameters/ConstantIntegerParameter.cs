@@ -5,9 +5,9 @@ namespace Helluys.FsmCore.Parameters
     public class ConstantIntegerParameter : FsmConstant {
         public int value;
 
-        public override SerializableFsmConstant Serialize () {
-            return new SerializableFsmConstant() {
-                type = SerializableFsmConstant.Type.INTEGER,
+        public override SerializedFsmConstant Serialize () {
+            return new SerializedFsmConstant() {
+                type = SerializedFsmConstant.Type.INTEGER,
                 integerValue = value
             };
         }

@@ -26,18 +26,21 @@ namespace Helluys.FsmCore.Serialization
         }
 
         public FsmCondition Deserialize (IDictionary<string, FsmParameter> parameters) {
+            // Retrieve or default parameter
             FsmParameter parameter;
             if (parameters.ContainsKey(parameterName)) {
                 parameter = parameters[parameterName];
             } else {
-                parameter = new BooleanParameter();
+                parameter = DefaultParameter(type);
             }
 
-            SerializedFsmConstant.Type constantType = ExpectedConstantType(parameter);
-            if (constantType != constant.type) {
-                ReplaceConstant(constantType);
+            // Ensure constant type matches parameter type
+            SerializedFsmConstant.Type expectedConstantType = ExpectedConstantType(parameter);
+            if (expectedConstantType != constant.type) {
+                DefaultConstant(expectedConstantType);
             }
 
+            // Deserialize condition
             switch (type) {
                 case Type.EQUALS:
                     return new EqualsCondition(parameter, constant.Deserialize());
@@ -52,7 +55,29 @@ namespace Helluys.FsmCore.Serialization
             }
         }
 
-        private SerializedFsmConstant.Type ExpectedConstantType (FsmParameter parameter) {
+        private static FsmParameter DefaultParameter (Type type) {
+            FsmParameter parameter;
+            switch (type) {
+                case Type.EQUALS:
+                    parameter = new BooleanParameter();
+                    break;
+                case Type.GREATER_THAN:
+                    parameter = new IntegerParameter();
+                    break;
+                case Type.SMALLER_THAN:
+                    parameter = new IntegerParameter();
+                    break;
+                case Type.TRIGGER:
+                    parameter = new TriggerParameter();
+                    break;
+                default:
+                    throw new InvalidEnumArgumentException(type.ToString());
+            }
+
+            return parameter;
+        }
+
+        private static SerializedFsmConstant.Type ExpectedConstantType (FsmParameter parameter) {
             if (parameter is BooleanParameter || parameter is TriggerParameter) {
                 return SerializedFsmConstant.Type.BOOLEAN;
             } else if (parameter is IntegerParameter) {
@@ -64,7 +89,7 @@ namespace Helluys.FsmCore.Serialization
             }
         }
 
-        private void ReplaceConstant (SerializedFsmConstant.Type constantType) {
+        private void DefaultConstant (SerializedFsmConstant.Type constantType) {
             switch (constantType) {
                 case SerializedFsmConstant.Type.BOOLEAN:
                     constant = new ConstantBooleanParameter().Serialize();

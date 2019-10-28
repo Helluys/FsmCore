@@ -1,7 +1,9 @@
 ﻿using Helluys.FsmCore.Serialization;
 
-namespace Helluys.FsmCore {
-    public abstract class FsmParameter {
+namespace Helluys.FsmCore
+{
+    public abstract class FsmParameter
+    {
         public string name { get; set; } = "New parameter";
         public abstract bool Equals (FsmConstant constant);
         public abstract bool GreaterThan (FsmConstant constant);

@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Helluys.FsmCore {
 	public partial class FiniteStateMachine : ISerializationCallbackReceiver {
-		[SerializeField] private List<StateInstance> serializedStateInstances = new List<StateInstance>();
 		[SerializeField] private List<FsmParameter> serializedFsmParameters = new List<FsmParameter>();
+		[SerializeField] private List<StateInstance> serializedStateInstances = new List<StateInstance>();
 
 		public void OnBeforeSerialize() {
 			serializedStateInstances.Clear();
@@ -39,7 +39,6 @@ namespace Helluys.FsmCore {
 				}
 			}
 		}
-
 
 		private static string IncrementName(string name) {
 			Regex re = new Regex(@"([^\d]*)(\d*)$");

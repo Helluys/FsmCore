@@ -110,6 +110,16 @@ namespace Helluys.FsmCore {
 			}
 
 			parameter.name = name;
+
+			foreach(StateInstance si in stateInstances) {
+				foreach(TransitionInstance transition in si.transitions) {
+					foreach(FsmCondition condition in transition.transition) {
+						if(condition.Contains(oldName)) {
+							condition.ReplaceParameter(parameter);
+						}
+					}
+				}
+			}
 		}
 
 		public FsmParameter GetParameter(string name) {

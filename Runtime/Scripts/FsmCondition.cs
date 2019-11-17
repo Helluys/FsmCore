@@ -1,15 +1,22 @@
 ﻿using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace Helluys.FsmCore {
 	[Serializable]
-	public class FsmCondition {
+	public class FsmCondition : ISerializationCallbackReceiver {
 
 		public enum Type {
 			TRIGGER,
 			EQUALS,
 			GREATER_THAN,
 			SMALLER_THAN
+		}
+
+		public string parameterName {
+			get {
+				return _parameterName;
+			}
 		}
 
 		public Type type {
@@ -53,7 +60,8 @@ namespace Helluys.FsmCore {
 		}
 
 		[SerializeField] private Type _type;
-		[SerializeField] private FsmParameter _parameter;
+		private FsmParameter _parameter;
+		[SerializeField] private string _parameterName;
 		[SerializeField] private bool _boolValue;
 		[SerializeField] private int _intValue;
 		[SerializeField] private float _floatValue;
@@ -115,10 +123,11 @@ namespace Helluys.FsmCore {
 		}
 
 		public bool Contains(string parameterName) {
-			return _parameter.name.Equals(parameterName);
+			return _parameterName == parameterName;
 		}
 
 		public void ReplaceParameter(FsmParameter parameter) {
+			_parameterName = parameter.name;
 			_parameter = parameter;
 		}
 
@@ -162,6 +171,15 @@ namespace Helluys.FsmCore {
 				default:
 					throw new InvalidOperationException("Unkown condition type " + _type);
 			}
+		}
+
+		public void OnBeforeSerialize() {
+			_parameterName = _parameter?.name;
+		}
+
+		public void OnAfterDeserialize() {
+			// Parameter will be filled by FiniteStateMachine
+			_parameter = null;
 		}
 	}
 }

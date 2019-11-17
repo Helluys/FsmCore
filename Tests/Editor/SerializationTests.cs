@@ -1,6 +1,4 @@
-﻿using Helluys.FsmCore.Conditions;
-using Helluys.FsmCore.Parameters;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 
@@ -32,10 +30,10 @@ namespace Helluys.FsmCore.Tests
             fsm.AddStateInstance("Three", state1);
             fsm.AddStateInstance("Four", state2);
 
-            TriggerParameter triggerParameter = new TriggerParameter() { name = "testTrigger" };
-            FsmParameter booleanParameter = new BooleanParameter() { name = "testBool", value = false };
-            FsmParameter integerParameter = new IntegerParameter() { name = "testInt", value = 0 };
-            FsmParameter floatParameter = new FloatParameter() { name = "testFloat", value = 0f };
+			FsmParameter triggerParameter = FsmParameter.NewBoolean("testTrigger");
+            FsmParameter booleanParameter = FsmParameter.NewBoolean("testBool");
+            FsmParameter integerParameter = FsmParameter.NewInteger("testInt");
+            FsmParameter floatParameter = FsmParameter.NewFloat("testFloat");
 
             fsm.AddParameter(triggerParameter);
             fsm.AddParameter(booleanParameter);
@@ -43,16 +41,16 @@ namespace Helluys.FsmCore.Tests
             fsm.AddParameter(floatParameter);
 
             FsmTransition transition1to2 = new FsmTransition();
-            transition1to2.AddCondition(new TriggerCondition(triggerParameter));
+            transition1to2.AddCondition(FsmCondition.NewTrigger(triggerParameter));
 
             FsmTransition transition2to3 = new FsmTransition();
-            transition2to3.AddCondition(new EqualsCondition(booleanParameter, new ConstantBooleanParameter() { value = true }));
+            transition2to3.AddCondition(FsmCondition.NewEquals(booleanParameter, true));
 
             FsmTransition transition3to4 = new FsmTransition();
-            transition3to4.AddCondition(new GreaterThanCondition(integerParameter, new ConstantIntegerParameter() { value = 3 }));
+            transition3to4.AddCondition(FsmCondition.NewGreaterThan(integerParameter, 3));
 
             FsmTransition transition4to1 = new FsmTransition();
-            transition4to1.AddCondition(new SmallerThanCondition(floatParameter, new ConstantFloatParameter() { value = -1f }));
+            transition4to1.AddCondition(FsmCondition.NewSmallerThan(floatParameter, -1f));
 
             fsm.AddTransition("One", "Two", transition1to2);
             fsm.AddTransition("Two", "Three", transition2to3);
@@ -70,8 +68,8 @@ namespace Helluys.FsmCore.Tests
 
             FiniteStateMachine loadedFsm = AssetDatabase.LoadAssetAtPath<FiniteStateMachine>(ASSET_PATH + "SavedFsm.asset");
 
-            Assert.AreEqual(fsm.GetParameters(), loadedFsm.GetParameters());
-            Assert.AreEqual(fsm.states, loadedFsm.states);
+            Assert.AreEqual(fsm.parameters, loadedFsm.parameters);
+            Assert.AreEqual(fsm.stateInstances, loadedFsm.stateInstances);
         }
 
         [TearDown]

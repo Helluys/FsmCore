@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using Helluys.FsmCore.Serialization;
 using System.Collections.Generic;
 using System;
-using Helluys.FsmCore.Parameters;
 
 namespace Helluys.FsmCore.Editor
-{
+{/*
     [CustomPropertyDrawer(typeof(SerializedFsmCondition))]
     public class SerializedFsmConditionDrawer : PropertyDrawer
     {
@@ -104,7 +102,7 @@ namespace Helluys.FsmCore.Editor
         private static List<string> ExtractFsmParameters (SerializedProperty property) {
             FiniteStateMachine fsm = property.serializedObject.targetObject as FiniteStateMachine;
             List<string> parameters = new List<string>();
-            foreach (KeyValuePair<string, FsmParameter> kvp in fsm.GetParameters()) {
+            foreach (KeyValuePair<string, FsmParameter> kvp in fsm.parameters) {
                 parameters.Add(kvp.Key);
             }
 
@@ -114,5 +112,5 @@ namespace Helluys.FsmCore.Editor
         public override float GetPropertyHeight (SerializedProperty property, GUIContent label) {
             return property.isExpanded ? 4 * EditorGUIUtility.singleLineHeight : EditorGUIUtility.singleLineHeight;
         }
-    }
+    }*/
 }

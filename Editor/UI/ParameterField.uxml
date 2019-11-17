@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement>
+        <Style path="Packages/com.helluys.fsmcore/Editor/UI/ParameterField.uss" />
+        <ui:TextField picking-mode="Ignore" label="Name" text="My parameter" />
+        <uie:EnumField label="Type" type="Helluys.FsmCore.Serialization.SerializedFsmParameter.Type, FsmCore" value="Trigger" name="TypeField" />
+    </ui:VisualElement>
+</ui:UXML>

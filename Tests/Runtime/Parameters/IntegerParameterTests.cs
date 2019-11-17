@@ -1,117 +1,37 @@
-﻿using System;
-using Helluys.FsmCore.Parameters;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace Helluys.FsmCore.Tests.Parameters
-{
-    [TestFixture]
-    public class IntegerParameterTests
-    {
-        [Test]
-        public void GetSetTest () {
-            IntegerParameter int1 = new IntegerParameter() {
-                name = "int1",
-                value = 1
-            };
+namespace Helluys.FsmCore.Tests.Parameters {
+	[TestFixture]
+	public class IntegerParameterTests {
+		[Test]
+		public void EqualsTest() {
+			FsmParameter int1 = FsmParameter.NewInteger("int1", 1);
 
-            Assert.AreEqual(1, int1.Get());
+			Assert.IsTrue(int1.Equals(1));
+			Assert.IsFalse(int1.Equals(2));
 
-            int1.Set(2);
-            Assert.AreEqual(2, int1.Get());
-        }
+			int1.intValue = 2;
 
-        [Test]
-        public void EqualsTest () {
-            IntegerParameter int1 = new IntegerParameter() {
-                name = "int1",
-                value = 1
-            };
+			Assert.IsFalse(int1.Equals(1));
+			Assert.IsTrue(int1.Equals(2));
+		}
 
-            IntegerParameter int2 = new IntegerParameter() {
-                name = "int2",
-                value = 2
-            };
+		[Test]
+		public void GreaterThanTest() {
+			FsmParameter int1 = FsmParameter.NewInteger("int1", 1);
 
-            ConstantIntegerParameter const1 = new ConstantIntegerParameter() {
-                value = 1
-            };
+			Assert.IsTrue(int1.GreaterThan(0));
+			Assert.IsFalse(int1.GreaterThan(1));
+			Assert.IsFalse(int1.GreaterThan(2));
+		}
 
-            ConstantIntegerParameter const2 = new ConstantIntegerParameter() {
-                value = 2
-            };
+		[Test]
+		public void SmallerThanTest() {
+			FsmParameter int1 = FsmParameter.NewInteger("int1", 1);
 
-            Assert.IsTrue(int1.Equals(const1));
-            Assert.IsFalse(int1.Equals(const2));
-
-            Assert.IsFalse(int2.Equals(const1));
-            Assert.IsTrue(int2.Equals(const2));
-
-            Assert.IsTrue(int1.Equals(int1));
-            Assert.IsTrue(int2.Equals(int2));
-            Assert.IsFalse(int1.Equals(int2));
-
-            int1.value = 2;
-
-            Assert.IsFalse(int1.Equals(const1));
-            Assert.IsTrue(int1.Equals(const2));
-
-            Assert.IsTrue(int1.Equals(int2));
-
-            int2.value = 3;
-
-            Assert.IsFalse(int2.Equals(const1));
-            Assert.IsFalse(int2.Equals(const2));
-
-            Assert.IsTrue(int2.Equals(int2));
-
-            Assert.IsFalse(int1.Equals(int2));
-        }
-
-        [Test]
-        public void GreaterThanTest () {
-
-            IntegerParameter int1 = new IntegerParameter() {
-                name = "int1",
-                value = 1
-            };
-
-            ConstantIntegerParameter const0 = new ConstantIntegerParameter() {
-                value = 0
-            };
-            ConstantIntegerParameter const1 = new ConstantIntegerParameter() {
-                value = 1
-            };
-            ConstantIntegerParameter const2 = new ConstantIntegerParameter() {
-                value = 2
-            };
-
-            Assert.IsTrue(int1.GreaterThan(const0));
-            Assert.IsFalse(int1.GreaterThan(const1));
-            Assert.IsFalse(int1.GreaterThan(const2));
-        }
-
-        [Test]
-        public void SmallerThanTest () {
-
-            IntegerParameter int1 = new IntegerParameter() {
-                name = "int1",
-                value = 1
-            };
-
-
-            ConstantIntegerParameter const0 = new ConstantIntegerParameter() {
-                value = 0
-            };
-            ConstantIntegerParameter const1 = new ConstantIntegerParameter() {
-                value = 1
-            };
-            ConstantIntegerParameter const2 = new ConstantIntegerParameter() {
-                value = 2
-            };
-
-            Assert.IsFalse(int1.SmallerThan(const0));
-            Assert.IsFalse(int1.SmallerThan(const1));
-            Assert.IsTrue(int1.SmallerThan(const2));
-        }
-    }
+			Assert.IsFalse(int1.SmallerThan(0));
+			Assert.IsFalse(int1.SmallerThan(1));
+			Assert.IsTrue(int1.SmallerThan(2));
+		}
+	}
 }

@@ -1,151 +1,72 @@
-﻿using Helluys.FsmCore.Conditions;
-using Helluys.FsmCore.Parameters;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace Helluys.FsmCore.Tests.Conditions
-{
-    [TestFixture]
-    public class EqualsConditionTests
-    {
-        [Test]
-        public void BooleanEvaluationTest() {
-            BooleanParameter bool1 = new BooleanParameter() {
-                name = "bool1",
-                value = false
-            };
+namespace Helluys.FsmCore.Tests.Conditions {
+	[TestFixture]
+	public class EqualsConditionTests {
+		[Test]
+		public void BooleanEvaluationTest() {
+			FsmParameter bool1 = FsmParameter.NewBoolean("bool1");
+			FsmCondition condition = FsmCondition.NewEquals(bool1, false);
 
-            BooleanParameter bool2 = new BooleanParameter() {
-                name = "bool2",
-                value = true
-            };
+			bool1.boolValue = false;
+			condition.boolValue = false;
+			Assert.IsTrue(condition.Evaluate());
 
-            ConstantBooleanParameter falseConstant = new ConstantBooleanParameter() {
-                value = false
-            };
+			bool1.boolValue = false;
+			condition.boolValue = true;
+			Assert.IsFalse(condition.Evaluate());
 
-            ConstantBooleanParameter trueConstant = new ConstantBooleanParameter() {
-                value = true
-            };
+			bool1.boolValue = true;
+			condition.boolValue = false;
+			Assert.IsFalse(condition.Evaluate());
 
-            Assert.IsTrue(new EqualsCondition(bool1, falseConstant).Evaluate());
-            Assert.IsFalse(new EqualsCondition(bool2, falseConstant).Evaluate());
-            Assert.IsFalse(new EqualsCondition(bool1, trueConstant).Evaluate());
-            Assert.IsTrue(new EqualsCondition(bool2, trueConstant).Evaluate());
-        }
+			bool1.boolValue = true;
+			condition.boolValue = true;
+			Assert.IsTrue(condition.Evaluate());
+		}
 
-        [Test] 
-        public void BooleanContainsTest() {
-            BooleanParameter bool1 = new BooleanParameter() {
-                name = "bool1",
-                value = false
-            };
+		[Test]
+		public void IntegerEvaluationTest() {
+			FsmParameter int1 = FsmParameter.NewInteger("int1");
+			FsmCondition condition = FsmCondition.NewEquals(int1, 0);
 
-            BooleanParameter bool2 = new BooleanParameter() {
-                name = "bool2",
-                value = true
-            };
+			int1.intValue = 0;
+			condition.intValue = 0;
+			Assert.IsTrue(condition.Evaluate());
 
-            ConstantBooleanParameter falseConstant = new ConstantBooleanParameter() {
-                value = false
-            };
+			int1.intValue = 0;
+			condition.intValue = 1;
+			Assert.IsFalse(condition.Evaluate());
 
-            EqualsCondition equalsCondition1 = new EqualsCondition(bool1, falseConstant);
-            Assert.IsTrue(equalsCondition1.Contains(bool1));
-            Assert.IsFalse(equalsCondition1.Contains(bool2));
-        }
+			int1.intValue = 1;
+			condition.intValue = 0;
+			Assert.IsFalse(condition.Evaluate());
 
-        [Test]
-        public void IntegerEvaluationTest () {
-            IntegerParameter int1 = new IntegerParameter() {
-                name = "int1",
-                value = 1
-            };
+			int1.intValue = 1;
+			condition.intValue = 1;
+			Assert.IsTrue(condition.Evaluate());
+		}
 
-            IntegerParameter int2 = new IntegerParameter() {
-                name = "int2",
-                value = 2
-            };
+		[Test]
+		public void FloatEvaluationTest() {
+			FsmParameter float1 = FsmParameter.NewFloat("float1");
+			FsmCondition condition = FsmCondition.NewEquals(float1, 1f);
 
-            ConstantIntegerParameter const1 = new ConstantIntegerParameter() {
-                value = 1
-            };
+			float1.floatValue = 0f;
+			condition.floatValue = 0f;
+			Assert.IsTrue(condition.Evaluate());
 
-            ConstantIntegerParameter const2 = new ConstantIntegerParameter() {
-                value = 2
-            };
+			float1.floatValue = 0f;
+			condition.floatValue = 1f;
+			Assert.IsFalse(condition.Evaluate());
 
-            Assert.IsTrue(new EqualsCondition(int1, const1).Evaluate());
-            Assert.IsFalse(new EqualsCondition(int2, const1).Evaluate());
-            Assert.IsFalse(new EqualsCondition(int1, const2).Evaluate());
-            Assert.IsTrue(new EqualsCondition(int2, const2).Evaluate());
-        }
+			float1.floatValue = 1f;
+			condition.floatValue = 0f;
+			Assert.IsFalse(condition.Evaluate());
 
-        [Test]
-        public void IntegerContainsTest () {
-            IntegerParameter int1 = new IntegerParameter() {
-                name = "int1",
-                value = 1
-            };
-
-            IntegerParameter int2 = new IntegerParameter() {
-                name = "int2",
-                value = 2
-            };
-
-            ConstantIntegerParameter const1 = new ConstantIntegerParameter() {
-                value = 1
-            };
-
-            EqualsCondition equalsCondition1 = new EqualsCondition(int1, const1);
-            Assert.IsTrue(equalsCondition1.Contains(int1));
-            Assert.IsFalse(equalsCondition1.Contains(int2));
-        }
-
-        [Test]
-        public void FloatEvaluationTest () {
-            FloatParameter float1 = new FloatParameter() {
-                name = "float1",
-                value = 1f
-            };
-
-            FloatParameter float2 = new FloatParameter() {
-                name = "float2",
-                value = 2f
-            };
-
-            ConstantFloatParameter const1 = new ConstantFloatParameter() {
-                value = 1f
-            };
-
-            ConstantFloatParameter const2 = new ConstantFloatParameter() {
-                value = 2f
-            };
-
-            Assert.IsTrue(new EqualsCondition(float1, const1).Evaluate());
-            Assert.IsFalse(new EqualsCondition(float2, const1).Evaluate());
-            Assert.IsFalse(new EqualsCondition(float1, const2).Evaluate());
-            Assert.IsTrue(new EqualsCondition(float2, const2).Evaluate());
-        }
-
-        [Test]
-        public void FloatContainsTest () {
-            FloatParameter float1 = new FloatParameter() {
-                name = "float1",
-                value = 1f
-            };
-
-            FloatParameter float2 = new FloatParameter() {
-                name = "float2",
-                value = 2f
-            };
-
-            ConstantFloatParameter const1 = new ConstantFloatParameter() {
-                value = 1f
-            };
-
-            EqualsCondition equalsCondition1 = new EqualsCondition(float1, const1);
-            Assert.IsTrue(equalsCondition1.Contains(float1));
-            Assert.IsFalse(equalsCondition1.Contains(float2));
-        }
-    }
+			float1.floatValue = 1f;
+			condition.floatValue = 1f;
+			Assert.IsTrue(condition.Evaluate());
+		}
+	}
 }

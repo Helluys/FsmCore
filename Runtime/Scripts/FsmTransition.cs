@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Helluys.FsmCore {
     [Serializable]
-    public partial class FsmTransition : IEnumerable<FsmCondition> {
+    public class FsmTransition : IEnumerable<FsmCondition> {
 
         public UnityEvent OnTransition = new UnityEvent();
 
-        private List<FsmCondition> conditions = new List<FsmCondition>();
+        [SerializeField] private List<FsmCondition> conditions = new List<FsmCondition>();
 
         public void AddCondition (FsmCondition condition) {
             conditions.Add(condition);
@@ -20,10 +21,10 @@ namespace Helluys.FsmCore {
         }
 
         public void RemoveParameter (FsmParameter parameter) {
-            conditions.RemoveAll(c => c.Contains(parameter));
-        }
+            conditions.RemoveAll(c => c.Contains(parameter.name));
+		}
 
-        public bool Evaluate () {
+		public bool Evaluate () {
             bool result = true;
             foreach (FsmCondition condition in conditions) {
                 result &= condition.Evaluate();
@@ -43,5 +44,5 @@ namespace Helluys.FsmCore {
         IEnumerator IEnumerable.GetEnumerator () {
             return conditions.GetEnumerator();
         }
-    }
+	}
 }

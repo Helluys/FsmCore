@@ -1,41 +1,19 @@
-﻿using Helluys.FsmCore.Conditions;
-using Helluys.FsmCore.Parameters;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System;
 
-namespace Helluys.FsmCore.Tests.Conditions
-{
-    [TestFixture]
-    public class TriggerConditionTests
-    {
-        [Test]
-        public void EvaluationTest () {
-            TriggerParameter trig1 = new TriggerParameter() {
-                name = "trig1",
-            };
+namespace Helluys.FsmCore.Tests.Conditions {
+	[TestFixture]
+	public class TriggerConditionTests {
+		[Test]
+		public void BooleanEvaluationTest() {
+			FsmParameter t1 = FsmParameter.NewBoolean("t1");
+			FsmCondition tc = FsmCondition.NewTrigger(t1);
+			Assert.IsFalse(tc.Evaluate());
 
-            TriggerCondition triggerCondition1 = new TriggerCondition(trig1);
+			t1.boolValue = true;
 
-            Assert.IsFalse(triggerCondition1.Evaluate());
-
-            trig1.Set();
-            Assert.IsTrue(new TriggerCondition(trig1).Evaluate());
-            Assert.IsFalse(new TriggerCondition(trig1).Evaluate());
-        }
-
-        [Test]
-        public void ContainsTest () {
-            TriggerParameter trig1 = new TriggerParameter() {
-                name = "trig1",
-            };
-
-            TriggerParameter trig2 = new TriggerParameter() {
-                name = "trig2",
-            };
-
-            TriggerCondition triggerCondition1 = new TriggerCondition(trig1);
-
-            Assert.IsTrue(triggerCondition1.Contains(trig1));
-            Assert.IsFalse(triggerCondition1.Contains(trig2));
-        }
-    }
+			Assert.IsTrue(tc.Evaluate());
+			Assert.IsFalse(tc.Evaluate());
+		}
+	}
 }

@@ -3,139 +3,168 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Helluys.FsmCore
-{
-    [CreateAssetMenu(fileName = "FiniteStateMachine", menuName = "FiniteStateMachine")]
-    public partial class FiniteStateMachine : ScriptableObject
-    {
-        public class StateChangedEvent : UnityEvent<FsmState, FsmState> { }
+namespace Helluys.FsmCore {
 
-        public class StateInstance
-        {
-            public string name;
-            public FsmState state;
-            public List<TransitionInstance> transitions;
-        }
+	[CreateAssetMenu(fileName = "FiniteStateMachine", menuName = "FiniteStateMachine")]
+	public partial class FiniteStateMachine : ScriptableObject {
+		public class StateChangedEvent : UnityEvent<FsmState, FsmState> { }
 
-        public class TransitionInstance
-        {
-            public FsmTransition transition;
-            public string targetState;
-        }
+		[Serializable]
+		public class StateInstance {
+			public string name;
+			public FsmState state;
+			public List<TransitionInstance> transitions;
+		}
 
-        public StateChangedEvent OnStateChanged = new StateChangedEvent();
-        public string currentStateInstanceName {  get { return currentStateInstance.name; } }
-        public FsmState currentState { get { return currentStateInstance.state; } }
+		[Serializable]
+		public class TransitionInstance {
+			public FsmTransition transition;
+			public string targetState;
+		}
 
-        private IDictionary<string, StateInstance> fsm;
-        private IDictionary<string, FsmParameter> parameters;
-        private StateInstance currentStateInstance;
+		public StateChangedEvent OnStateChanged = new StateChangedEvent();
+		public string currentStateInstanceName { get { return currentStateInstance.name; } }
+		public FsmState currentState { get { return currentStateInstance.state; } }
 
-        public IEnumerable<StateInstance> states { get { return fsm.Values; } }
+		private List<StateInstance> _stateInstances;
+		private List<FsmParameter> _parameters;
+		private StateInstance currentStateInstance;
 
-        public FiniteStateMachine () {
-            fsm = new Dictionary<string, StateInstance>();
-            parameters = new Dictionary<string, FsmParameter>();
-            currentStateInstance = null;
-        }
+		public IEnumerable<StateInstance> stateInstances { get { return _stateInstances; } }
+		public IEnumerable<FsmParameter> parameters { get { return _parameters; } }
 
-        public void AddStateInstance (string name, FsmState state) {
-            StateInstance newStateInstance = new StateInstance() {
-                name = name,
-                state = state,
-                transitions = new List<TransitionInstance>()
-            };
-            
-            fsm.Add(name, newStateInstance);
-            
-            if (currentStateInstance == null) {
-                currentStateInstance = newStateInstance;
-            }
-        }
+		public FiniteStateMachine() {
+			_stateInstances = new List<StateInstance>();
+			_parameters = new List<FsmParameter>();
+			currentStateInstance = null;
+		}
 
-        public void RemoveState (string name) {
-            if (fsm.Remove(name)) {
-                // Remove all transitions pointing the the removed state
-                foreach (StateInstance stateInstance in states) {
-                    stateInstance.transitions.RemoveAll(t => t.targetState.Equals(name));
-                }
-            }
-        }
+		public StateInstance AddStateInstance(string name, FsmState state) {
+			StateInstance si = new StateInstance() {
+				name = name,
+				state = state,
+				transitions = new List<TransitionInstance>()
+			};
 
-        public void AddParameter (FsmParameter parameter) {
-            parameters.Add(parameter.name, parameter);
-        }
+			while(_stateInstances.Find(si2 => si2.name.Equals(name)) != null) {
+				name = IncrementName(name);
+			}
 
-        public void RemoveParameter (string name) {
-            if (parameters.TryGetValue(name, out FsmParameter removedParameter)) {
-                // Remove all conditions using the removed parameter
-                foreach (StateInstance stateInstance in states) {
-                    foreach (TransitionInstance transitionInstance in stateInstance.transitions) {
-                        transitionInstance.transition.RemoveParameter(removedParameter);
-                    }
-                }
+			_stateInstances.Add(si);
 
-                parameters.Remove(name);
-            }
-        }
+			if(currentStateInstance == null) {
+				currentStateInstance = si;
+			}
 
-        public IEnumerable<KeyValuePair<string, FsmParameter>> GetParameters() {
-            return parameters;
-        }
+			return si;
+		}
 
-        public FsmParameter GetParameter (string name) {
-            return parameters[name];
-        }
+		public void RemoveStateInstance(string name) {
+			if(_stateInstances.RemoveAll(si => si.name.Equals(name)) > 0) {
+				// Remove all transitions pointing the the removed state
+				foreach(StateInstance stateInstance in stateInstances) {
+					stateInstance.transitions.RemoveAll(t => t.targetState.Equals(name));
+				}
+			}
+		}
 
-        public void AddTransition (string fromState, string toState, FsmTransition transition) {
-            if (!fsm.ContainsKey(toState)) {
-                throw new KeyNotFoundException();
-            }
+		public StateInstance GetStateInstance(string name) {
+			StateInstance si = _stateInstances.Find(si2 => si2.name.Equals(name));
+			if(si == null) {
+				throw new KeyNotFoundException("State instance " + name + " does not exist");
+			}
 
-            // Prevent duplicate transitions
-            if (fsm[fromState].transitions.Exists(t => t.targetState.Equals(toState))) {
-                throw new ArgumentException();
-            }
+			return si;
+		}
 
-            fsm[fromState].transitions.Add(new TransitionInstance() {
-                targetState = toState,
-                transition = transition
-            });
-        }
+		public void AddParameter(FsmParameter parameter) {
+			// Prevent duplicate names
+			string name = parameter != null ? parameter.name : "New parameter";
+			while(_parameters.Find(p => p.name.Equals(name)) != null) {
+				name = IncrementName(name);
+			}
 
-        public void RemoveTransition (string fromState, string toState) {
-            fsm[fromState].transitions.RemoveAll(t => t.targetState.Equals(toState));
-        }
+			_parameters.Add(parameter);
+		}
 
-        public FsmTransition GetTransition(string fromState, string toState) {
-            if (!fsm.ContainsKey(toState)) {
-                throw new KeyNotFoundException();
-            }
+		public void RemoveParameter(string name) {
+			FsmParameter parameter = GetParameter(name);
 
-            return fsm[fromState].transitions.Find(t => t.targetState.Equals(toState))?.transition;
-        }
+			// Remove all conditions using the removed parameter
+			foreach(StateInstance stateInstance in stateInstances) {
+				foreach(TransitionInstance transitionInstance in stateInstance.transitions) {
+					transitionInstance.transition.RemoveParameter(parameter);
+				}
+			}
 
-        public void Update () {
-            bool stateChanged = false;
-            foreach (TransitionInstance transition in currentStateInstance.transitions) {
-                if (transition.transition.Evaluate()) {
-                    currentState.OnExit();
+			_parameters.Remove(parameter);
+		}
 
-                    FsmState oldState = currentState;
-                    currentStateInstance = fsm[transition.targetState];
+		public void RenameParameter(string oldName, string newName) {
+			FsmParameter parameter = GetParameter(oldName);
 
-                    currentState.OnEnter();
+			// Prevent duplicate names
+			string name = newName;
+			while(_parameters.Find(p => p.name.Equals(name)) != null && name != oldName) {
+				name = IncrementName(name);
+			}
 
-                    OnStateChanged.Invoke(oldState, currentState);
+			parameter.name = name;
+		}
 
-                    stateChanged = true;
-                    break;
-                }
-            }
+		public FsmParameter GetParameter(string name) {
+			FsmParameter parameter = _parameters.Find(p => p.name.Equals(name));
+			if(parameter == null) {
+				throw new KeyNotFoundException("Parameter " + name + " does not exist");
+			}
+			return parameter;
+		}
 
-            if (!stateChanged) {
-                currentState.OnStay();
-            }
-        }
-    }
+		public void AddTransition(string fromState, string toState, FsmTransition transition) {
+			StateInstance si = GetStateInstance(fromState);
+
+			// Prevent duplicate transitions
+			if(si.transitions.Exists(t => t.targetState.Equals(toState))) {
+				throw new ArgumentException("Transition from " + fromState + " to " + toState + " already exists");
+			}
+
+			si.transitions.Add(new TransitionInstance() {
+				targetState = toState,
+				transition = transition
+			});
+		}
+
+		public void RemoveTransition(string fromState, string toState) {
+			GetStateInstance(fromState).transitions.RemoveAll(t => t.targetState.Equals(toState));
+		}
+
+		public FsmTransition GetTransition(string fromState, string toState) {
+			return GetStateInstance(fromState).transitions.Find(t => t.targetState.Equals(toState))?.transition;
+		}
+
+		public void Update() {
+			bool stateChanged = false;
+			foreach(TransitionInstance transition in currentStateInstance.transitions) {
+				if(transition.transition.Evaluate()) {
+					currentState.OnExit();
+
+					FsmState oldState = currentState;
+					currentStateInstance = GetStateInstance(transition.targetState);
+
+					currentState.OnEnter();
+
+					OnStateChanged.Invoke(oldState, currentState);
+
+					stateChanged = true;
+					break;
+				}
+			}
+
+			if(stateChanged) {
+				Update();
+			} else {
+				currentState.OnStay();
+			}
+		}
+	}
 }

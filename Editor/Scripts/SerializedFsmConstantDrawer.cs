@@ -1,9 +1,8 @@
 ﻿using UnityEditor;
-using Helluys.FsmCore.Serialization;
 using UnityEngine;
 
 namespace Helluys.FsmCore.Editor
-{
+{/*
     [CustomPropertyDrawer(typeof(SerializedFsmConstant))]
     public class SerializedFsmConstantDrawer : PropertyDrawer
     {
@@ -35,5 +34,5 @@ namespace Helluys.FsmCore.Editor
 
             EditorGUI.EndProperty();
         }
-    }
+    }*/
 }

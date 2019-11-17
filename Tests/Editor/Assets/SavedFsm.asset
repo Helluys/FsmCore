@@ -14,83 +14,99 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedStateInstances:
   - name: One
-    fsmState: {fileID: 11400000, guid: ada1adc0e3e61c54a8903bb2fe867a3e, type: 2}
+    state: {fileID: 11400000, guid: ada1adc0e3e61c54a8903bb2fe867a3e, type: 2}
     transitions:
-    - fsmTransition:
-        serializableFsmConditions:
-        - type: 3
-          parameterName: testTrigger
-          constant:
-            type: 0
-            booleanValue: 0
-            integerValue: 0
-            floatValue: 0
+    - transition:
+        OnTransition:
+          m_PersistentCalls:
+            m_Calls: []
+        conditions:
+        - _type: 0
+          _parameter:
+            _name: testTrigger
+            _type: 0
+            _boolValue: 0
+            _intValue: 0
+            _floatValue: 0
+          _boolValue: 0
+          _intValue: 0
+          _floatValue: 0
       targetState: Two
   - name: Two
-    fsmState: {fileID: 11400000, guid: 76b1e5a6ef8c87b42b965dbd83d683a8, type: 2}
+    state: {fileID: 11400000, guid: 76b1e5a6ef8c87b42b965dbd83d683a8, type: 2}
     transitions:
-    - fsmTransition:
-        serializableFsmConditions:
-        - type: 0
-          parameterName: testBool
-          constant:
-            type: 0
-            booleanValue: 1
-            integerValue: 0
-            floatValue: 0
+    - transition:
+        OnTransition:
+          m_PersistentCalls:
+            m_Calls: []
+        conditions:
+        - _type: 1
+          _parameter:
+            _name: testBool
+            _type: 0
+            _boolValue: 0
+            _intValue: 0
+            _floatValue: 0
+          _boolValue: 1
+          _intValue: 0
+          _floatValue: 0
       targetState: Three
   - name: Three
-    fsmState: {fileID: 11400000, guid: ada1adc0e3e61c54a8903bb2fe867a3e, type: 2}
+    state: {fileID: 11400000, guid: ada1adc0e3e61c54a8903bb2fe867a3e, type: 2}
     transitions:
-    - fsmTransition:
-        serializableFsmConditions:
-        - type: 1
-          parameterName: testInt
-          constant:
-            type: 1
-            booleanValue: 0
-            integerValue: 3
-            floatValue: 0
+    - transition:
+        OnTransition:
+          m_PersistentCalls:
+            m_Calls: []
+        conditions:
+        - _type: 2
+          _parameter:
+            _name: testInt
+            _type: 1
+            _boolValue: 0
+            _intValue: 0
+            _floatValue: 0
+          _boolValue: 0
+          _intValue: 3
+          _floatValue: 3
       targetState: Four
   - name: Four
-    fsmState: {fileID: 11400000, guid: 76b1e5a6ef8c87b42b965dbd83d683a8, type: 2}
+    state: {fileID: 11400000, guid: 76b1e5a6ef8c87b42b965dbd83d683a8, type: 2}
     transitions:
-    - fsmTransition:
-        serializableFsmConditions:
-        - type: 2
-          parameterName: testFloat
-          constant:
-            type: 2
-            booleanValue: 0
-            integerValue: 0
-            floatValue: -1
+    - transition:
+        OnTransition:
+          m_PersistentCalls:
+            m_Calls: []
+        conditions:
+        - _type: 3
+          _parameter:
+            _name: testFloat
+            _type: 2
+            _boolValue: 0
+            _intValue: 0
+            _floatValue: 0
+          _boolValue: 0
+          _intValue: -1
+          _floatValue: -1
       targetState: One
   serializedFsmParameters:
-  - name: testTrigger
-    type: 0
-    defaultValue:
-      type: 0
-      booleanValue: 0
-      integerValue: 0
-      floatValue: 0
-  - name: testBool
-    type: 1
-    defaultValue:
-      type: 0
-      booleanValue: 0
-      integerValue: 0
-      floatValue: 0
-  - name: testInt
-    type: 2
-    defaultValue:
-      type: 1
-      booleanValue: 0
-      integerValue: 0
-      floatValue: 0
-  - name: testFloat
-    type: 3
-    defaultValue:
-      type: 2
-      booleanValue: 0
-      integerValue: 0
-      floatValue: 0
+  - _name: testTrigger
+    _type: 0
+    _boolValue: 0
+    _intValue: 0
+    _floatValue: 0
+  - _name: testBool
+    _type: 0
+    _boolValue: 0
+    _intValue: 0
+    _floatValue: 0
+  - _name: testInt
+    _type: 1
+    _boolValue: 0
+    _intValue: 0
+    _floatValue: 0
+  - _name: testFloat
+    _type: 2
+    _boolValue: 0
+    _intValue: 0
+    _floatValue: 0

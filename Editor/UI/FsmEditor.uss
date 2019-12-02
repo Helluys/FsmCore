@@ -5,10 +5,22 @@
 
 #ParametersPanel {
 	margin: 2px;
+	flex-grow: 0;
 	max-width: 300px;
 	border-width: 1px;
 	border-color: rgb(89, 89, 89);
 	background-color: #C2C2C2
+}
+
+#GraphHolder {
+    flex-grow: 1;
+    position: absolute;
+    flex-shrink: 0;
+    right: 0;
+    left: 400px;
+    bottom: 0;
+    top: 0;
+	padding: 15px;
 }
 
 .PanelTitle {
@@ -29,4 +41,26 @@
 	width: 16px;
 	height: 16px;
 	-unity-text-align: middle-center;
+}
+
+.node {
+    min-width: 150px;
+    min-height: 50px;
+    flex-shrink: 0;
+    display: flex;
+    background-color: rgb(130, 130, 130);
+    border-color: rgb(84, 84, 84);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    visibility: visible;
+    overflow: hidden;
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19ffde926138c854e8f4f135237479a1, type: 3}
   m_Name: SavedFsm
   m_EditorClassIdentifier: 
-  serializedFsmParameters:
+  serializedParameters:
   - _name: testTrigger
     _type: 0
     _boolValue: 0
@@ -47,6 +47,7 @@ MonoBehaviour:
           _boolValue: 0
           _intValue: 0
           _floatValue: 0
+      originState: One
       targetState: Two
   - name: Two
     state: {fileID: 11400000, guid: 76b1e5a6ef8c87b42b965dbd83d683a8, type: 2}
@@ -61,6 +62,7 @@ MonoBehaviour:
           _boolValue: 1
           _intValue: 0
           _floatValue: 0
+      originState: Two
       targetState: Three
   - name: Three
     state: {fileID: 11400000, guid: ada1adc0e3e61c54a8903bb2fe867a3e, type: 2}
@@ -75,6 +77,7 @@ MonoBehaviour:
           _boolValue: 0
           _intValue: 3
           _floatValue: 3
+      originState: Three
       targetState: Four
   - name: Four
     state: {fileID: 11400000, guid: 76b1e5a6ef8c87b42b965dbd83d683a8, type: 2}
@@ -89,4 +92,5 @@ MonoBehaviour:
           _boolValue: 0
           _intValue: -1
           _floatValue: -1
+      originState: Four
       targetState: One

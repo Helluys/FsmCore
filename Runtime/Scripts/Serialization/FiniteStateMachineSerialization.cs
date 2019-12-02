@@ -5,22 +5,22 @@ using UnityEngine;
 
 namespace Helluys.FsmCore {
 	public partial class FiniteStateMachine : ISerializationCallbackReceiver {
-		[SerializeField] private List<FsmParameter> serializedFsmParameters = new List<FsmParameter>();
+		[SerializeField] private List<FsmParameter> serializedParameters = new List<FsmParameter>();
 		[SerializeField] private List<StateInstance> serializedStateInstances = new List<StateInstance>();
 
 		public void OnBeforeSerialize() {
 			serializedStateInstances.Clear();
-			serializedFsmParameters.Clear();
+			serializedParameters.Clear();
 
 			serializedStateInstances.AddRange(stateInstances);
-			serializedFsmParameters.AddRange(parameters);
+			serializedParameters.AddRange(parameters);
 		}
 
 		public void OnAfterDeserialize() {
 			_stateInstances.Clear();
 			_parameters.Clear();
 
-			_parameters.AddRange(serializedFsmParameters);
+			_parameters.AddRange(serializedParameters);
 			_stateInstances.AddRange(serializedStateInstances);
 
 			LinkParameters();

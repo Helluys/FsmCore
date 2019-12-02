@@ -19,6 +19,7 @@ namespace Helluys.FsmCore {
 		[Serializable]
 		public class TransitionInstance {
 			public FsmTransition transition;
+			public string originState;
 			public string targetState;
 		}
 
@@ -61,7 +62,7 @@ namespace Helluys.FsmCore {
 
 		public void RemoveStateInstance(string name) {
 			if(_stateInstances.RemoveAll(si => si.name.Equals(name)) > 0) {
-				// Remove all transitions pointing the the removed state
+				// Remove all transitions pointing to the removed state
 				foreach(StateInstance stateInstance in stateInstances) {
 					stateInstance.transitions.RemoveAll(t => t.targetState.Equals(name));
 				}
@@ -139,8 +140,9 @@ namespace Helluys.FsmCore {
 			}
 
 			si.transitions.Add(new TransitionInstance() {
-				targetState = toState,
-				transition = transition
+				transition = transition,
+				originState = fromState,
+				targetState = toState
 			});
 		}
 

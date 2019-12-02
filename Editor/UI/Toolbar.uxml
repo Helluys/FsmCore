@@ -1,7 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <uie:Toolbar class="unity-builder-toolbar" style="flex-direction: row;">
-        <Style path="Packages/com.helluys.fsmcore/Editor/UI/Toolbar.uss" />
-        <uie:ToolbarMenu name="file-menu" text="File" />
-        <uie:ToolbarSpacer class="unity-builder__toolbar-flex-space" />
-    </uie:Toolbar>
-</ui:UXML>
